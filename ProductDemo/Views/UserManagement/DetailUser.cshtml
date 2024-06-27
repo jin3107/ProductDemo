@@ -1,0 +1,31 @@
+﻿@model ProductDemo.ViewModels.UserViewModel
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<div class="container">
+    <h2 class="mt-5">User Details</h2>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th scope="row">ID</th>
+                <td>@Model.Id</td>
+            </tr>
+            <tr>
+                <th scope="row">First Name</th>
+                <td>@Model.FirstName</td>
+            </tr>
+            <tr>
+                <th scope="row">Last Name</th>
+                <td>@Model.LastName</td>
+            </tr>
+            <tr>
+                <th scope="row">Email</th>
+                <td>@Model.Email</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-between">
+        <a asp-action="Index" asp-controller="UserManagement" class="btn btn-primary">Back to List of User Management</a>
+    </div>
+</div>

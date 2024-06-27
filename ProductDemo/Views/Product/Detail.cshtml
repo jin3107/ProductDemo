@@ -1,0 +1,41 @@
+﻿@using ProductDemo.Models
+@model Product
+
+<h2>Product Detail</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Product Id</th>
+        <td>@Model.ProductId</td>
+    </tr>
+    <tr>
+        <th>Product Name</th>
+        <td>@Model.ProductName</td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>@Model.Price.ToString("C")</td>
+    </tr>
+    <tr>
+        <th>Manufacturer</th>
+        <td>@Model.Manufactor</td>
+    </tr>
+    <tr>
+        <th>Product Category</th>
+        <td>@Model.ProductCategory?.ProductTypeName</td>
+    </tr>
+    <tr>
+        <th>Made In</th>
+        <td>@Model.MadeIn</td>
+    </tr>
+    <tr>
+        <th>Material</th>
+        <td>@Model.Material</td>
+    </tr>
+    <tr>
+        <th>Remaining Number</th>
+        <td>@Model.RemainingNumber</td>
+    </tr>
+</table>
+
+<a class="btn btn-primary" asp-controller="Product" asp-action="Index">Back to List of Products</a>

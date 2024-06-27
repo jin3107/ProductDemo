@@ -1,0 +1,70 @@
+﻿@model ProductDemo.ViewModels.ProductViewModel
+
+<h2 class="text-center mb-5">List of Products</h2>
+
+<div class="row mb-4">
+    <div class="col">
+        <a class="btn btn-primary" asp-controller="Product" asp-action="Create">Create New Product</a>
+    </div>
+    <div class="col">
+        <form class="d-flex flex-row align-items-center flex-wrap" asp-action="Index">
+            <label for="search" class="mx-2 my-1">Search</label>
+            <input type="search" class="form-control w-auto" id="search" name="search" value="@Model.Search" placeholder="Search" />
+            <button type="submit" class="btn btn-success mx-2">Go</button>
+        </form>
+    </div>
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Manufacturer</th>
+            <th>Product Category</th>
+            <th>Made In</th>
+            <th>Material</th>
+            <th>Remaining Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products!)
+        {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>@product.Price.ToString("C")</td>
+                <td>@product.Manufactor</td>
+                <td>@product.ProductCategory?.ProductTypeName</td>
+                <td>@product.MadeIn</td>
+                <td>@product.Material</td>
+                <td>@product.RemainingNumber</td>
+                <td style="white-space: nowrap;">
+                    <a class="btn btn-primary btn-sm" asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">Detail</a>
+                    <a class="btn btn-warning btn-sm" asp-controller="Product" asp-action="Edit" asp-route-id="@product.ProductId">Edit</a>
+                    <a class="btn btn-danger btn-sm" asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.NoOfPages > 1)
+{
+    <nav aria-label="Product Pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                <a class="page-link" asp-controller="Product" asp-action="Index" asp-route-page="@(Model.Page - 1)">Prev</a>
+            </li>
+            @for (int i = 0; i < Model.NoOfPages; i++)
+            {
+                <li class="page-item @(Model.Page == i + 1 ? "active" : "")">
+                    <a class="page-link" asp-controller="Product" asp-action="Index" asp-route-page="@(i + 1)">@(i + 1)</a>
+                </li>
+            }
+            <li class="page-item @(Model.Page == Model.NoOfPages ? "disabled" : "")">
+                <a class="page-link" asp-controller="Product" asp-action="Index" asp-route-page="@(Model.Page + 1)">Next</a>
+            </li>
+        </ul>
+    </nav>
+}

@@ -1,0 +1,68 @@
+﻿@model ProductDemo.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container">
+    <h1>Products</h1>
+
+    <div class="row mb-3">
+        <div class="col">
+            <form asp-controller="Home" asp-action="Index" method="get" class="form-inline">
+                <div class="form-group mr-2">
+                    <input type="text" class="form-control" placeholder="Search" name="search" value="@Model.Search" />
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var product in Model.Products!)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.ProductName</h5>
+                        <p class="card-text">Price: @product.Price.ToString("C")</p>
+                        <p class="card-text">Remaining Quantity: @product.RemainingNumber</p>
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="productId" value="@product.ProductId" />
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="@product.RemainingNumber" />
+                            </div>
+                            <button type="submit" class="btn btn-success">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                <a class="page-link" href="?search=@Model.Search&page=1">First</a>
+            </li>
+            <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                <a class="page-link" href="?search=@Model.Search&page=@(Model.Page - 1)">Previous</a>
+            </li>
+
+            @for (int i = 1; i <= Model.NoOfPages; i++)
+            {
+                <li class="page-item @(i == Model.Page ? "active" : "")">
+                    <a class="page-link" href="?search=@Model.Search&page=@i">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(Model.Page == Model.NoOfPages ? "disabled" : "")">
+                <a class="page-link" href="?search=@Model.Search&page=@(Model.Page + 1)">Next</a>
+            </li>
+            <li class="page-item @(Model.Page == Model.NoOfPages ? "disabled" : "")">
+                <a class="page-link" href="?search=@Model.Search&page=@Model.NoOfPages">Last</a>
+            </li>
+        </ul>
+    </nav>
+</div>

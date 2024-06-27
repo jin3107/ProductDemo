@@ -1,0 +1,27 @@
+﻿@model ProductDemo.Models.ProductCategory
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>New Product Category</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="Category" asp-action="Create">
+                    <div class="mb-3 row">
+                        <label asp-for="ProductTypeName" class="col-sm-4 col-form-label">Name</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" asp-for="ProductTypeName" />
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col-sm-8 offset-sm-4 d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a class="btn btn-outline-secondary" asp-controller="Category" asp-action="Index">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

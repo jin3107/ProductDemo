@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ProductDemo.ViewModels.UserViewModel>
+
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<h2>User Management</h2>
+
+<p>
+    <a asp-action="AddUser" asp-controller="UserManagement" class="btn btn-primary">Add User</a>
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead class="table table-dark">
+        <tr>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    <a asp-action="DetailUser" asp-controller="UserManagement" asp-route-id="@user.Id" class="btn btn-sm btn-info">Detail</a>
+                    <a asp-action="EditUser" asp-controller="UserManagement" asp-route-id="@user.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="DeleteUser" asp-controller="UserManagement" asp-route-id="@user.Id" class="btn btn-sm btn-danger">Delete</a>
+                    <a asp-action="ResetPasswordUser" asp-controller="UserManagement" asp-route-id="@user.Id" class="btn btn-sm btn-secondary">Reset Password</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
