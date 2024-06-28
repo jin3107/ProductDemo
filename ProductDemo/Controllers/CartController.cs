@@ -70,20 +70,17 @@ namespace ProductDemo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
             var cartItem = await _cartService.GetCartItemByIdAsync(cartItemId);
             if (cartItem == null)
             {
                 return NotFound();
             }
-
             ViewBag.ListType = await _context.ProductCategory
                 .Select(x => new ProductCategory
                 {
                     ProductTypeId = x.ProductTypeId,
                     ProductTypeName = x.ProductTypeName,
                 }).ToListAsync();
-
             return View(cartItem);
         }
 

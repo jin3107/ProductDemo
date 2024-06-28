@@ -7,17 +7,6 @@
 <div class="container">
     <h1>Products</h1>
 
-    @* <div class="row mb-4">
-        <div class="col">
-            <form asp-controller="Home" asp-action="Index" method="get" class="form-inline">
-                <div class="form-group mr-2">
-                    <input type="text" class="form-control" placeholder="Search" name="search" value="@Model.Search" />
-                </div>
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
-        </div>
-    </div> *@
-
     <div class="row mb-4">
         <div class="col">
             <form class="d-flex flex-row align-items-center flex-wrap" asp-action="Index">
@@ -27,7 +16,6 @@
             </form>
         </div>
     </div>
-
 
     <div class="row">
         @foreach (var product in Model.Products!)
@@ -46,8 +34,9 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Add to Cart</button>
                         </form>
-                        <form asp-controller="Invoice" asp-action="Index" method="post" class="mb-2">
+                        <form asp-controller="Invoice" asp-action="Buy" method="post" class="mb-2">
                             <input type="hidden" name="productId" value="@product.ProductId" />
+                            <input type="hidden" name="quantity" value="1" />
                             <button type="submit" class="btn btn-success">Buy</button>
                         </form>
                     </div>

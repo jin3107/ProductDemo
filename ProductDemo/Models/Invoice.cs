@@ -32,6 +32,7 @@ namespace ProductDemo.Models
         public int Quantity { get; set; }
 
         public Guid ProductId { get; set; }
+        
         [ForeignKey("ProductId")]
         public Product? Product { get; set; }
 
@@ -41,8 +42,5 @@ namespace ProductDemo.Models
         public ProductCategory? ProductCategory { get; set; }
 
         public string? BuyerId { get; set; }
-
-        [ForeignKey("BuyerId")]
-        public ApplicationUser? Buyer { get; set; }
     }
 }

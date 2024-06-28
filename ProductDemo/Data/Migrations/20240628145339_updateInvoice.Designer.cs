@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProductDemo.Data;
 
@@ -11,9 +12,11 @@ using ProductDemo.Data;
 namespace ProductDemo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240628145339_updateInvoice")]
+    partial class updateInvoice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,7 +269,7 @@ namespace ProductDemo.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BuyerId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BuyerName")
                         .IsRequired()
@@ -299,6 +302,8 @@ namespace ProductDemo.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("InvoiceId");
+
+                    b.HasIndex("BuyerId");
 
                     b.HasIndex("ProductCategoryId");
 
@@ -425,6 +430,10 @@ namespace ProductDemo.Data.Migrations
 
             modelBuilder.Entity("ProductDemo.Models.Invoice", b =>
                 {
+                    b.HasOne("ApplicationUser", "Buyer")
+                        .WithMany()
+                        .HasForeignKey("BuyerId");
+
                     b.HasOne("ProductDemo.Models.ProductCategory", "ProductCategory")
                         .WithMany()
                         .HasForeignKey("ProductCategoryId");
@@ -434,6 +443,8 @@ namespace ProductDemo.Data.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Buyer");
 
                     b.Navigation("Product");
 

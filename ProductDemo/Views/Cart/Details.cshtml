@@ -8,6 +8,7 @@
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
             <tr>
+                <th class="col-sm-2">Product Id</th>
                 <th class="col-sm-2">Product Name</th>
                 <th class="col-sm-2">Quantity</th>
                 <th class="col-sm-2">Price</th>
@@ -16,6 +17,7 @@
         </thead>
         <tbody>
             <tr>
+                <td>@Model.ProductId</td>
                 <td>@Model.Product!.ProductName</td>
                 <td>@Model.Quantity</td>
                 <td>@Model.Price.ToString("C")</td>

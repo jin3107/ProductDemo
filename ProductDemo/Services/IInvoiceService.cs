@@ -14,5 +14,6 @@ namespace ProductDemo.Services
         Task<bool> CreateInvoiceAsync(Invoice invoice);
         Task<bool> UpdateInvoiceAsync(Guid id, Invoice invoice);
         Task<bool> DeleteInvoiceAsync(Guid id);
+        Task<bool> BuyProductAsync(Guid productId, int quantity, string buyerId);
     }
 }
