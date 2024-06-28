@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ProductDemo.Data;
 using ProductDemo.Models;
 using ProductDemo.Services;
 using System;
@@ -11,10 +13,14 @@ namespace ProductDemo.Controllers
     public class InvoiceController : Controller
     {
         private readonly IInvoiceService _invoiceService;
+        private readonly IProductService _productService;
+        private readonly ApplicationDbContext _context;
 
-        public InvoiceController(IInvoiceService invoiceService)
+        public InvoiceController(IInvoiceService invoiceService, IProductService productService, ApplicationDbContext context)
         {
             _invoiceService = invoiceService;
+            _productService = productService;
+            _context = context;
         }
 
         public async Task<IActionResult> Index(string search = "", int page = 1)
@@ -33,8 +39,10 @@ namespace ProductDemo.Controllers
             return View(invoice);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var categories = await _productService.GetAllCategoriesAsync();
+            ViewBag.ListType = new SelectList(categories, "ProductTypeId", "ProductTypeName");
             return View();
         }
 
@@ -50,6 +58,8 @@ namespace ProductDemo.Controllers
                 }
                 ModelState.AddModelError(string.Empty, "Unable to create invoice.");
             }
+            var categories = await _productService.GetAllCategoriesAsync();
+            ViewBag.ListType = new SelectList(categories, "ProductTypeId", "ProductTypeName");
             return View(invoice);
         }
 
@@ -60,21 +70,37 @@ namespace ProductDemo.Controllers
             {
                 return NotFound();
             }
+            ViewBag.ListType = new SelectList(await _productService.GetAllCategoriesAsync(), "ProductTypeId", "ProductTypeName");
             return View(invoice);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(Guid id, Invoice invoice)
         {
+            if (id != invoice.InvoiceId)
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
-                var success = await _invoiceService.UpdateInvoiceAsync(id, invoice);
-                if (success)
+                try
                 {
-                    return RedirectToAction(nameof(Index));
+                    var success = await _invoiceService.UpdateInvoiceAsync(id, invoice);
+                    if (success)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Unable to update invoice.");
+                    }
                 }
-                ModelState.AddModelError(string.Empty, "Unable to update invoice.");
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, $"Error updating invoice: {ex.Message}");
+                }
             }
+            ViewBag.ListType = new SelectList(await _productService.GetAllCategoriesAsync(), "ProductTypeId", "ProductTypeName");
             return View(invoice);
         }
 

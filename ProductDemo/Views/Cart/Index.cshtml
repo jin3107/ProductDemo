@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ProductDemo.Models.CartItem>
+
+<h1>Giỏ Hàng</h1>
+
+<table class="table table-bordered table-hover">
+    <thead class="table table-dark">
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product!.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price.ToString("C")</td>
+                <td style="white-space:nowrap;">
+                    <a href="@Url.Action("Details", new { id = item.CartItemId })" class="btn btn-primary">Details</a>
+                    <a href="@Url.Action("Edit", new { id = item.CartItemId })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Delete", new { id = item.CartItemId })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Purchase")" class="btn btn-success">Buy</a>

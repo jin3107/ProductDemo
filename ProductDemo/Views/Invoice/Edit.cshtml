@@ -1,52 +1,70 @@
 ﻿@model ProductDemo.Models.Invoice
 
-@{
-    ViewData["Title"] = "Edit Invoice";
-}
-
-<h2>@ViewData["Title"]</h2>
-
-<form asp-action="Edit">
-    <input type="hidden" asp-for="InvoiceId" />
-
-    <div class="form-group">
-        <label asp-for="BuyerName" class="control-label"></label>
-        <input asp-for="BuyerName" class="form-control" />
-        <span asp-validation-for="BuyerName" class="text-danger"></span>
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-5">Edit Invoice</h2>
+                <form method="post" asp-controller="Invoice" asp-action="Edit" asp-route-id="@Model.InvoiceId">
+                    <div class="mb-3 row">
+                        <label asp-for="InvoiceId" class="col-sm-4 col-form-label">Invoice Id</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" readonly asp-for="InvoiceId" />
+                            <span asp-validation-for="InvoiceId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="BuyerName" class="col-sm-4 col-form-label">Buyer Name</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" asp-for="BuyerName" />
+                            <span asp-validation-for="BuyerName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="ProductName" class="col-sm-4 col-form-label">Product Name</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" asp-for="ProductName" />
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="ProductCategoryId" class="col-sm-4 col-form-label">Product Category</label>
+                        <div class="col-sm-8">
+                            <select class="form-select" asp-for="ProductCategoryId" asp-items="ViewBag.ListType">
+                            </select>
+                            <span asp-validation-for="ProductCategoryId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="Price" class="col-sm-4 col-form-label">Price</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" readonly asp-for="Price" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="PurchaseDate" class="col-sm-4 col-form-label">Purchase Date</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" asp-for="PurchaseDate" />
+                            <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="Quantity" class="col-sm-4 col-form-label">Quantity</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" asp-for="Quantity" />
+                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-8">
+                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                            <a class="btn btn-outline-secondary" asp-controller="Invoice" asp-action="Index">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="ProductName" class="control-label"></label>
-        <input asp-for="ProductName" class="form-control" />
-        <span asp-validation-for="ProductName" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ProductCategory" class="control-label"></label>
-        <input asp-for="ProductCategory" class="form-control" />
-        <span asp-validation-for="ProductCategory" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Price" class="control-label"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="PurchaseDate" class="control-label"></label>
-        <input asp-for="PurchaseDate" class="form-control" />
-        <span asp-validation-for="PurchaseDate" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Quantity" class="control-label"></label>
-        <input asp-for="Quantity" class="form-control" />
-        <span asp-validation-for="Quantity" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary ml-2">Back to List</a>
-    </div>
-</form>
+</div>

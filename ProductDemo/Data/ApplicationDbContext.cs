@@ -15,5 +15,6 @@ namespace ProductDemo.Data
         public DbSet<ProductDemo.Models.Product> Product { get; set; }
         public DbSet<ProductDemo.Models.ProductCategory> ProductCategory { get; set; }
         public DbSet<ProductDemo.Models.Invoice> Invoice { get; set; }
+        public DbSet<ProductDemo.Models.CartItem> CartItem { get; set; }
     }
 }

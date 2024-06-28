@@ -16,6 +16,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 // Cấu hình Identity
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

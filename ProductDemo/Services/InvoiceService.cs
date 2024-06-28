@@ -21,6 +21,7 @@ namespace ProductDemo.Services
         {
             int pageSize = 10;
             return await _context.Invoice
+                                 .Include(i => i.ProductCategory)
                                  .Where(i => (i.ProductName != null && i.ProductName.Contains(search)) ||
                                              (i.BuyerName != null && i.BuyerName.Contains(search)))
                                  .Skip((page - 1) * pageSize)
@@ -30,7 +31,14 @@ namespace ProductDemo.Services
 
         public async Task<Invoice> GetInvoiceByIdAsync(Guid id)
         {
-            return await _context.Invoice.FindAsync(id);
+            return await _context.Invoice
+                .Include(i => i.ProductCategory)
+                .FirstOrDefaultAsync(i => i.InvoiceId == id);
+        }
+
+        public async Task<List<ProductCategory>> GetAllCategoriesAsync()
+        {
+            return await _context.ProductCategory.ToListAsync();
         }
 
         public async Task<bool> CreateInvoiceAsync(Invoice invoice)

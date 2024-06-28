@@ -7,7 +7,7 @@
 <div class="container">
     <h1>Products</h1>
 
-    <div class="row mb-3">
+    @* <div class="row mb-4">
         <div class="col">
             <form asp-controller="Home" asp-action="Index" method="get" class="form-inline">
                 <div class="form-group mr-2">
@@ -16,7 +16,18 @@
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
+    </div> *@
+
+    <div class="row mb-4">
+        <div class="col">
+            <form class="d-flex flex-row align-items-center flex-wrap" asp-action="Index">
+                <label for="search" class="mx-2 my-1">Search</label>
+                <input type="search" class="form-control w-auto" id="search" name="search" value="@Model.Search" placeholder="Search" />
+                <button type="submit" class="btn btn-success mx-2">Go</button>
+            </form>
+        </div>
     </div>
+
 
     <div class="row">
         @foreach (var product in Model.Products!)
@@ -27,13 +38,17 @@
                         <h5 class="card-title">@product.ProductName</h5>
                         <p class="card-text">Price: @product.Price.ToString("C")</p>
                         <p class="card-text">Remaining Quantity: @product.RemainingNumber</p>
-                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mb-2">
                             <input type="hidden" name="productId" value="@product.ProductId" />
                             <div class="form-group">
                                 <label for="quantity">Quantity:</label>
                                 <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="@product.RemainingNumber" />
                             </div>
-                            <button type="submit" class="btn btn-success">Add to Cart</button>
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
+                        <form asp-controller="Invoice" asp-action="Index" method="post" class="mb-2">
+                            <input type="hidden" name="productId" value="@product.ProductId" />
+                            <button type="submit" class="btn btn-success">Buy</button>
                         </form>
                     </div>
                 </div>

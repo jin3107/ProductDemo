@@ -1,0 +1,29 @@
+﻿@model ProductDemo.Models.CartItem
+
+<h1>Product Details</h1>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th class="col-sm-2">Product Name</th>
+                <th class="col-sm-2">Quantity</th>
+                <th class="col-sm-2">Price</th>
+                <th class="col-sm-2">Added Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Product!.ProductName</td>
+                <td>@Model.Quantity</td>
+                <td>@Model.Price.ToString("C")</td>
+                <td>@Model.AddedDate.ToString("g")</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <a href="@Url.Action("Index")" class="btn btn-primary">Back To List of Cart</a>
+</div>

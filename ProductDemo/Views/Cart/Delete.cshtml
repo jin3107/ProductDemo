@@ -1,0 +1,36 @@
+﻿@model ProductDemo.Models.CartItem
+
+<h1>Product Delete</h1>
+
+<h4>Are yot sure to Delete Product?</h4>
+<div>
+    <h4>Product`</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Product Name
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Product!.ProductName
+        </dd>
+        <dt class="col-sm-2">
+            Quantity
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Quantity
+        </dd>
+        <dt class="col-sm-2">
+            Price
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Price.ToString("C")
+        </dd>
+    </dl>
+</div>
+<div>
+    <form asp-action="Delete" asp-controller="Cart">
+        <input type="hidden" asp-for="CartItemId" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

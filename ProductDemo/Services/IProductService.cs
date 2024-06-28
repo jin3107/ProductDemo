@@ -15,5 +15,6 @@ namespace ProductDemo.Services
         Task<bool> UpdateProductAsync(Guid id, Product product);
         Task<bool> DeleteProductAsync(Guid id);
         IEnumerable<SelectListItem> GetCategoriesSelectList();
+        Task<List<ProductCategory>> GetAllCategoriesAsync();
     }
 }

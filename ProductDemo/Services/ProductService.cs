@@ -107,5 +107,10 @@ namespace ProductDemo.Services
                 })
                 .ToList();
         }
+
+        public async Task<List<ProductCategory>> GetAllCategoriesAsync()
+        {
+            return await context.ProductCategory.ToListAsync();
+        }
     }
 }
