@@ -28,3 +28,16 @@ body {
 .form-group .btn {
     margin-right: 0.5rem;
 }
+
+.row {
+    display: flex;
+    align-items: flex-end;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}

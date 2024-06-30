@@ -28,6 +28,7 @@ namespace ProductDemo.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewBag.ListProducts = await _context.Product.ToListAsync();
             var cartItems = await _cartService.GetCartItemsAsync();
             return View(cartItems);
         }

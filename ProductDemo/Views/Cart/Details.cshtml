@@ -1,31 +1,36 @@
 ﻿@model ProductDemo.Models.CartItem
 
-<h1>Product Details</h1>
+<h2>Chi tiết sản phẩm trong giỏ hàng</h2>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th class="col-sm-2">Product Id</th>
-                <th class="col-sm-2">Product Name</th>
-                <th class="col-sm-2">Quantity</th>
-                <th class="col-sm-2">Price</th>
-                <th class="col-sm-2">Added Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@Model.ProductId</td>
-                <td>@Model.Product!.ProductName</td>
-                <td>@Model.Quantity</td>
-                <td>@Model.Price.ToString("C")</td>
-                <td>@Model.AddedDate.ToString("g")</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div>
-    <a href="@Url.Action("Index")" class="btn btn-primary">Back To List of Cart</a>
-</div>
+<table class="table table-bordered">
+    <tr>
+        <th>Cart Item Id</th>
+        <td>@Model.CartItemId</td>
+    </tr>
+    <tr>
+        <th>Buyer Name</th>
+        <td>@Model.BuyerName</td>
+    </tr>
+    <tr>
+        <th>Product Name</th>
+        <td>@Model.Product!.ProductName</td>
+    </tr>
+    <tr>
+        <th>Product Category</th>
+        <td>@Model.Product!.ProductCategory?.ProductTypeName</td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>@Model.Price.ToString("C")</td>
+    </tr>
+    <tr>
+        <th>Added Date</th>
+        <td>@Model.AddedDate.ToString("dd/MM/yyyy")</td>
+    </tr>
+    <tr>
+        <th>Quantity</th>
+        <td>@Model.Quantity</td>
+    </tr>
+</table>
+
+<a class="btn btn-primary" asp-controller="Cart" asp-action="Index">Back to List of Cart</a>

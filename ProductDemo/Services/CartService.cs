@@ -27,6 +27,7 @@ namespace ProductDemo.Services
             if (product == null) throw new ArgumentException("Product not found");
 
             var userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var buyerName = _httpContextAccessor.HttpContext!.User.Identity!.Name;
             var cartItem = await _context.CartItem
                 .FirstOrDefaultAsync(ci => ci.ProductId == productId && ci.UserId == userId);
 
@@ -44,7 +45,8 @@ namespace ProductDemo.Services
                     Quantity = quantity,
                     Price = product.Price * quantity,
                     AddedDate = DateTime.Now,
-                    UserId = userId
+                    UserId = userId,
+                    BuyerName = buyerName
                 };
                 _context.CartItem.Add(cartItem);
             }   
@@ -66,6 +68,7 @@ namespace ProductDemo.Services
         {
             return await _context.CartItem
                 .Include(ci => ci.Product)
+                .ThenInclude(p => p!.ProductCategory)
                 .FirstOrDefaultAsync(ci => ci.CartItemId == cartItemId);
         }
 
@@ -79,6 +82,7 @@ namespace ProductDemo.Services
             {
                 cartItem.Quantity = quantity;
                 cartItem.Price = cartItem.Product.Price * quantity;
+                cartItem.BuyerName = _httpContextAccessor.HttpContext!.User.Identity!.Name;
                 await _context.SaveChangesAsync();
                 return true;
             }
