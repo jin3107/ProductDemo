@@ -15,39 +15,52 @@
     </div>
 </div>
 
-<table class="table table-bordered table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Manufacturer</th>
-            <th>Product Category</th>
-            <th>Made In</th>
-            <th>Material</th>
-            <th>Remaining Number</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model.Products!)
-        {
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
-                <td>@product.ProductName</td>
-                <td>@product.Price.ToString("C")</td>
-                <td>@product.Manufactor</td>
-                <td>@product.ProductCategory?.ProductTypeName</td>
-                <td>@product.MadeIn</td>
-                <td>@product.Material</td>
-                <td>@product.RemainingNumber</td>
-                <td style="white-space: nowrap;">
-                    <a class="btn btn-primary btn-sm" asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">Detail</a>
-                    <a class="btn btn-warning btn-sm" asp-controller="Product" asp-action="Edit" asp-route-id="@product.ProductId">Edit</a>
-                    <a class="btn btn-danger btn-sm" asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductId">Delete</a>
-                </td>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Manufacturer</th>
+                <th>Category</th>
+                <th>Made In</th>
+                <th>Material</th>
+                <th>Remaining Number</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products!)
+            {
+                <tr>
+                    <td>@product.ProductName</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(product.ImagePath))
+                        {
+                            <img src="@product.ImagePath" alt="@product.ProductName" style="max-width: 200px;" />
+                        }
+                        else
+                        {
+                            <span>No image available</span>
+                        }
+                    </td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>@product.Manufactor</td>
+                    <td>@product.ProductCategory?.ProductTypeName</td>
+                    <td>@product.MadeIn</td>
+                    <td>@product.Material</td>
+                    <td>@product.RemainingNumber</td>
+                    <td style="white-space: nowrap;">
+                        <a class="btn btn-primary btn-sm" asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">Detail</a>
+                        <a class="btn btn-warning btn-sm" asp-controller="Product" asp-action="Edit" asp-route-id="@product.ProductId">Edit</a>
+                        <a class="btn btn-danger btn-sm" asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 @if (Model.NoOfPages > 1)
 {

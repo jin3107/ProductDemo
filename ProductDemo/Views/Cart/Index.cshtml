@@ -1,34 +1,64 @@
-﻿@model IEnumerable<ProductDemo.Models.CartItem>
+﻿@* @model IEnumerable<ProductDemo.Models.CartItem>
 
 <h1>Giỏ Hàng</h1>
 <table class="table table-bordered table-hover">
     <thead class="table-dark">
         <tr>
-            <th>Buyer Name</th>
             <th>Product Name</th>
-            @* <th>Quantity</th>
-            <th>Price</th> *@
             <th>Active</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var group in Model.GroupBy(x => x.BuyerName))
         {
-            <tr>
-                <td>@item.BuyerName</td>
-                <td>
-                    <select class="form-select" asp-for="@item.ProductId" asp-items="@(new SelectList((List<ProductDemo.Models.Product>)ViewBag.ListProducts, "ProductId", "ProductName"))">
-                        <option value="@item.ProductId">@item.Product?.ProductName</option>
-                    </select>
-                </td>
-                @* <td>@item.Quantity</td>
-                <td>@item.Price.ToString("C")</td> *@
-                <td style="white-space:nowrap;">
-                    <a href="@Url.Action("Details", new { id = item.CartItemId })" class="btn btn-primary">Details</a>
-                    <a href="@Url.Action("Edit", new { id = item.CartItemId })" class="btn btn-warning">Edit</a>
-                    <a href="@Url.Action("Delete", new { id = item.CartItemId })" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
+            @foreach (var item in group)
+            {
+                <tr>
+                    <td>
+                        <a class="form-select" asp-for="@item.ProductId" asp-items="@(new SelectList((List<ProductDemo.Models.Product>)ViewBag.ListProducts, "ProductId", "ProductName", item.ProductId))">
+                        </a>
+                    </td>
+                    <td style="white-space:nowrap;">
+                        <a href="@Url.Action("Details", new { id = item.CartItemId })" class="btn btn-primary">Details</a>
+                        <a href="@Url.Action("Edit", new { id = item.CartItemId })" class="btn btn-warning">Edit</a>
+                        <a href="@Url.Action("Delete", new { id = item.CartItemId })" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Purchase")" class="btn btn-success">Buy</a> *@
+
+@model IEnumerable<ProductDemo.Models.CartItem>
+
+<h1>Giỏ Hàng</h1>
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in Model.GroupBy(x => x.BuyerName))
+        {
+            @foreach (var item in group)
+            {
+                <tr>
+                    <td>@item.Product?.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td style="white-space:nowrap;">
+                        <a href="@Url.Action("Details", new { id = item.CartItemId })" class="btn btn-primary">Details</a>
+                        <a href="@Url.Action("Edit", new { id = item.CartItemId })" class="btn btn-warning">Edit</a>
+                        <a href="@Url.Action("Delete", new { id = item.CartItemId })" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

@@ -1,12 +1,12 @@
-﻿using ProductDemo.Models;
-using ProductDemo.ViewModels;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ProductDemo.Data;
+using ProductDemo.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ProductDemo.Data;
+using ProductDemo.ViewModels;
 
 namespace ProductDemo.Services
 {
@@ -23,12 +23,11 @@ namespace ProductDemo.Services
         {
             var query = context.Product
                 .Include(p => p.ProductCategory)
-                .AsNoTracking()
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(p => p.ProductName!.Contains(search));
+                query = query.Where(p => p.ProductName.Contains(search));
             }
 
             var products = await query
@@ -58,7 +57,6 @@ namespace ProductDemo.Services
         {
             return await context.Product
                 .Include(p => p.ProductCategory)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.ProductId == id);
         }
 
@@ -71,6 +69,7 @@ namespace ProductDemo.Services
             }
 
             existingProduct.ProductName = product.ProductName;
+            existingProduct.ImagePath = product.ImagePath;
             existingProduct.Price = product.Price;
             existingProduct.Manufactor = product.Manufactor;
             existingProduct.ProductTypeId = product.ProductTypeId;
@@ -99,7 +98,6 @@ namespace ProductDemo.Services
         public IEnumerable<SelectListItem> GetCategoriesSelectList()
         {
             return context.ProductCategory
-                .AsNoTracking()
                 .Select(c => new SelectListItem
                 {
                     Value = c.ProductTypeId.ToString(),

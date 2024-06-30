@@ -13,6 +13,12 @@ namespace ProductDemo.Models
         [MaxLength(100)]
         public string? ProductName { get; set; }
 
+        [MaxLength(100)]
+        public string? ImagePath { get; set; }
+
+        [NotMapped]
+        public IFormFile? Image {  get; set; }
+
         [Precision(18, 2)]
         public decimal Price { get; set; }
 

@@ -13,6 +13,19 @@
         <td>@Model.ProductName</td>
     </tr>
     <tr>
+        <th>Image</th>
+        <td>
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Model.ImagePath" alt="@Model.ProductName" style="max-width: 200px;" />
+            }
+            else
+            {
+                <span>No image available</span>
+            }
+        </td>
+    </tr>
+    <tr>
         <th>Price</th>
         <td>@Model.Price.ToString("C")</td>
     </tr>
@@ -39,3 +52,4 @@
 </table>
 
 <a class="btn btn-primary" asp-controller="Product" asp-action="Index">Back to List of Products</a>
+<a class="btn btn-success" asp-controller="Home" asp-action="Index">Back to Home</a>

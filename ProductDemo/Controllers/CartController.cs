@@ -18,17 +18,24 @@ namespace ProductDemo.Controllers
         private readonly ICartService _cartService;
         private readonly IInvoiceService _invoiceService;
         private readonly ApplicationDbContext _context;
+        private IHttpContextAccessor _httpContextAccessor;
 
-        public CartController(ICartService cartService, IInvoiceService invoiceService, ApplicationDbContext context)
+        public CartController(ICartService cartService, IInvoiceService invoiceService, ApplicationDbContext context,
+            IHttpContextAccessor httpContextAccessor)
         {
             _cartService = cartService;
             _invoiceService = invoiceService;
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.ListProducts = await _context.Product.ToListAsync();
+            var userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.ListProducts = await _context.CartItem.Where(x => x.UserId == user.Id).Include(x => x.Product)
+                .Select(x => x.Product)
+                .ToListAsync();
             var cartItems = await _cartService.GetCartItemsAsync();
             return View(cartItems);
         }

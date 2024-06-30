@@ -5,9 +5,6 @@
     <h2 class="text-center mb-5">List of Invoices</h2>
 
     <div class="row mb-4">
-        @* <div class="col">
-            <a class="btn btn-primary mt-3" asp-controller="Invoice" asp-action="Create">Create New Invoice</a>
-        </div> *@
         <div class="col">
             <form class="d-flex flex-row align-items-center flex-wrap" asp-action="Index" method="get">
                 <label for="search" class="mx-2 my-1">Search</label>
@@ -20,7 +17,6 @@
     <table class="table table-striped table-bordered mt-4">
         <thead class="table table-dark">
             <tr>
-                <th>Buyer Name</th>
                 <th>Product Name</th>
                 <th>Category</th>
                 <th>Price</th>
@@ -33,7 +29,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.BuyerName</td>
                     <td>@item.ProductName</td>
                     <td>@item.ProductCategory?.ProductTypeName</td>
                     <td>@item.Price.ToString("C")</td>
