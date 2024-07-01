@@ -1,36 +1,66 @@
 ﻿@model ProductDemo.Models.CartItem
 
-<h2>Chi tiết sản phẩm trong giỏ hàng</h2>
+@{
+    var isLaptopOrComputer = Model.Product!.ProductCategory?.ProductTypeName == "Laptop" || Model.Product!.ProductCategory?.ProductTypeName == "Computer";
+}
+
+<h2>Chi Tiết Sản Phẩm trong Giỏ Hàng</h2>
 
 <table class="table table-bordered">
     <tr>
-        <th>Cart Item Id</th>
+        <th>Id Giỏ Hàng</th>
         <td>@Model.CartItemId</td>
     </tr>
     <tr>
-        <th>Buyer Name</th>
+        <th>Tên Người Mua</th>
         <td>@Model.BuyerName</td>
     </tr>
     <tr>
-        <th>Product Name</th>
+        <th>Tên Sản Phẩm</th>
         <td>@Model.Product!.ProductName</td>
     </tr>
     <tr>
-        <th>Product Category</th>
+        <th>Loại Sản Phẩm</th>
         <td>@Model.Product!.ProductCategory?.ProductTypeName</td>
     </tr>
+    @if (isLaptopOrComputer)
+    {
+        <tr>
+            <th>Cấu Hình</th>
+            <td>@Model.Configuration</td>
+        </tr>
+        <tr>
+            <th>Hệ Điều Hành Windows</th>
+            <td>@Model.WindowsOption</td>
+        </tr>
+        <tr>
+            <th>Card Đồ Họa</th>
+            <td>@Model.CardOption</td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <th>Màu Sắc</th>
+            <td>@Model.ColorOption</td>
+        </tr>
+    }
     <tr>
-        <th>Price</th>
+        <th>Giá Tiền</th>
         <td>@Model.Price.ToString("C")</td>
     </tr>
     <tr>
-        <th>Added Date</th>
+        <th>Ngày Thêm vào Giỏ</th>
         <td>@Model.AddedDate.ToString("dd/MM/yyyy")</td>
     </tr>
     <tr>
-        <th>Quantity</th>
+        <th>Số Lượng</th>
         <td>@Model.Quantity</td>
+    </tr>
+    <tr>
+        <th>Mô Tả</th>
+        <td>@Model.Descriptions</td>
     </tr>
 </table>
 
-<a class="btn btn-primary" asp-controller="Cart" asp-action="Index">Back to List of Cart</a>
+<a class="btn btn-primary" asp-controller="Cart" asp-action="Index">Trở về Danh Sách Giỏ Hàng</a>

@@ -1,18 +1,18 @@
 ﻿@model ProductDemo.ViewModels.CategoryViewModel
 
 @{
-    ViewData["Title"] = "Product Categories";
+    ViewData["Title"] = "Danh Sách các Loại Sản Phẩm";
 }
 
-<h2 class="text-center mb-5">List of Product Categories</h2>
+<h2 class="text-center mb-5">Danh Sách các Loại Sản Phẩm</h2>
 
 <div class="row mb-4">
     <div class="col">
-        <a class="btn btn-primary" asp-controller="Category" asp-action="Create">Create New Product Category</a>
+        <a class="btn btn-primary" asp-controller="Category" asp-action="Create">Tạo Loại Sản Phẩm mới</a>
     </div>
     <div class="col">
         <form class="d-flex flex-row align-items-center flex-wrap" asp-action="Index">
-            <label for="Search" class="mx-2 my-1">Search</label>
+            <label for="Search" class="mx-2 my-1">Tìm Kiếm</label>
             <input type="search" class="form-control w-auto" id="Search" name="search" value="@Model.Search" placeholder="Search" />
             <button type="submit" class="btn btn-success mx-2">Go</button>
         </form>
@@ -22,9 +22,9 @@
 <table class="table table-bordered table-hover">
     <thead class="table-dark">
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Actions</th>
+            <th>Id Loại Sản Phẩm</th>
+            <th>Tên Loại Sản Phẩm</th>
+            <th>Hành Động</th>
         </tr>
     </thead>
     <tbody>
@@ -34,8 +34,8 @@
                 <td>@category.ProductTypeId</td>
                 <td>@category.ProductTypeName</td>
                 <td style="white-space:nowrap;">
-                    <a class="btn btn-warning btn-sm" asp-controller="Category" asp-action="Edit" asp-route-id="@category.ProductTypeId">Edit</a>
-                    <a class="btn btn-danger btn-sm" asp-controller="Category" asp-action="Delete" asp-route-id="@category.ProductTypeId">Delete</a>
+                    <a class="btn btn-warning btn-sm" asp-controller="Category" asp-action="Edit" asp-route-id="@category.ProductTypeId">Chỉnh Sửa</a>
+                    <a class="btn btn-danger btn-sm" asp-controller="Category" asp-action="Delete" asp-route-id="@category.ProductTypeId">Xóa</a>
                 </td>
             </tr>
         }
@@ -47,7 +47,7 @@
     <nav aria-label="Category Pagination">
         <ul class="pagination justify-content-center">
             <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
-                <a class="page-link" asp-controller="Category" asp-action="Index" asp-route-page="@(Model.Page - 1)">Prev</a>
+                <a class="page-link" asp-controller="Category" asp-action="Index" asp-route-page="@(Model.Page - 1)">Trước</a>
             </li>
             @for (int i = 0; i < Model.NoOfPages; i++)
             {
@@ -56,7 +56,7 @@
                 </li>
             }
             <li class="page-item @(Model.Page == Model.NoOfPages ? "disabled" : "")">
-                <a class="page-link" asp-controller="Category" asp-action="Index" asp-route-page="@(Model.Page + 1)">Next</a>
+                <a class="page-link" asp-controller="Category" asp-action="Index" asp-route-page="@(Model.Page + 1)">Sau</a>
             </li>
         </ul>
     </nav>

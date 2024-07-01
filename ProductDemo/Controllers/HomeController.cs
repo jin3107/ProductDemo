@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using ProductDemo.Data;
 using ProductDemo.Models;
 using ProductDemo.Services;
@@ -30,6 +31,27 @@ namespace ProductDemo.Controllers
             var viewModel = await _productService.GetProductsAsync(search, page);
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null || _context.Product == null)
+            {
+                return NotFound();
+            }
+            var products = await _context.Product
+                                        .Include(p => p.ProductCategory)
+                                        .FirstOrDefaultAsync(x => x.ProductId == id);
+            if (products == null)
+            {
+                return NotFound();
+            }
+            return View(products);
+        }
+
+
+
+
+
 
         public IActionResult Privacy()
         {

@@ -41,3 +41,27 @@ body {
 .mt-2 {
     margin-top: 0.5rem;
 }
+
+form label {
+    margin-right: 10px;
+}
+
+form input[type="search"] {
+    margin-right: 10px;
+}
+
+
+.table thead th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+.table .btn {
+    margin: 0 5px;
+}

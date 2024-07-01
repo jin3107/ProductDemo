@@ -1,20 +1,68 @@
 ﻿@model ProductDemo.Models.CartItem
 
-<h1>Product Edit</h1>
+@{
+    var isLaptopOrComputer = Model.Product!.ProductCategory?.ProductTypeName == "Laptop" || Model.Product!.ProductCategory?.ProductTypeName == "Computer";
+}
 
-<h4>Product</h4>
+<h1>Chỉnh sửa sản phẩm</h1>
+
+<h4>Sản phẩm</h4>
 <hr />
 <div>
     <form asp-action="Edit">
+        <input type="hidden" asp-for="CartItemId" />
+        <input type="hidden" asp-for="ProductId" />
+
         <div class="form-group">
             <label asp-for="Quantity" class="control-label"></label>
             <input asp-for="Quantity" class="form-control" />
             <span asp-validation-for="Quantity" class="text-danger"></span>
         </div>
-        <input type="hidden" asp-for="CartItemId" value="@Model.CartItemId" />
+
+        @if (isLaptopOrComputer)
+        {
+            <div class="form-group">
+                <label class="control-label">Tùy chọn Cấu Hình</label>
+                <select asp-for="Configuration" class="form-control">
+                    <option value="Thấp">Cấu Hình Thấp</option>
+                    <option value="Trung Bình">Cấu Hình Trung Bình</option>
+                    <option value="Cao">Cấu Hình Cao</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Tùy chọn Windows</label>
+                <select asp-for="WindowsOption" class="form-control">
+                    <option value="Thấp">Windows Thấp</option>
+                    <option value="Trung Bình">Windows Trung Bình</option>
+                    <option value="Cao">Windows Cao</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Tùy chọn Card</label>
+                <select asp-for="CardOption" class="form-control">
+                    <option value="Thấp">Card Đồ Họa Thấp</option>
+                    <option value="Trung Bình">Card Đồ Họa Trung Bình</option>
+                    <option value="Cao">Card Đồ Họa Cao</option>
+                </select>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <label class="control-label">Tùy chọn Màu Sắc</label>
+                <select asp-for="ColorOption" class="form-control">
+                    <option value="Đỏ">Đỏ</option>
+                    <option value="Xanh">Xanh</option>
+                    <option value="Đen">Đen</option>
+                </select>
+            </div>
+        }
+        <br />
         <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
-            <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+            <input type="submit" value="Lưu" class="btn btn-primary" />
+            <a href="@Url.Action("Index")" class="btn btn-secondary">Hủy</a>
         </div>
     </form>
 </div>

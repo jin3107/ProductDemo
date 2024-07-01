@@ -33,7 +33,7 @@ namespace ProductDemo.Services
             var products = await query
                 .OrderBy(p => p.ProductName)
                 .Skip((page - 1) * 5)
-                .Take(5)
+                .Take(6)
                 .ToListAsync();
 
             var viewModel = new ProductViewModel

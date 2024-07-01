@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductDemo.Data;
-using ProductDemo.Data.Migrations;
 using ProductDemo.Models;
 using ProductDemo.Services;
-using SQLitePCL;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -33,17 +31,18 @@ namespace ProductDemo.Controllers
         {
             var userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = _context.Users.FirstOrDefault(x => x.Id == userId);
-            ViewBag.ListProducts = await _context.CartItem.Where(x => x.UserId == user.Id).Include(x => x.Product)
+            ViewBag.ListProducts = await _context.CartItem.Where(x => x.UserId == user!.Id).Include(x => x.Product)
                 .Select(x => x.Product)
                 .ToListAsync();
             var cartItems = await _cartService.GetCartItemsAsync();
             return View(cartItems);
         }
 
-        public async Task<IActionResult> AddToCart(Guid productId, int quantity)
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(Guid productId, int quantity, string configurationOption, string windowsOption, string cardOption, string description, string colorOption)
         {
-            await _cartService.AddToCartAsync(productId, quantity);
-            return RedirectToAction(nameof(Index));
+            await _cartService.AddToCartAsync(productId, quantity, configurationOption, windowsOption, cardOption, description, colorOption);
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Details(Guid id)
@@ -56,6 +55,7 @@ namespace ProductDemo.Controllers
             return View(cartItem);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
             var cartItem = await _cartService.GetCartItemByIdAsync(id);
@@ -67,28 +67,75 @@ namespace ProductDemo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid cartItemId, int quantity)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid cartItemId, int quantity, string configuration, string windowsOption, string cardOption, string colorOption)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var success = await _cartService.UpdateCartItemAsync(cartItemId, quantity);
+                var existingCartItem = await _cartService.GetCartItemByIdAsync(cartItemId);
+                if (existingCartItem == null)
+                {
+                    return NotFound();
+                }
+                var product = await _context.Product.FindAsync(existingCartItem.ProductId);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+                if (product.ProductCategory!.ProductTypeName == "Laptop" || product.ProductCategory!.ProductTypeName == "Computer")
+                {
+                    existingCartItem.Quantity = quantity;
+                    existingCartItem.Configuration = configuration;
+                    existingCartItem.WindowsOption = windowsOption;
+                    existingCartItem.CardOption = cardOption;
+
+                    decimal additionalPrice = 0;
+                    if (configuration == "Trung Bình" && cardOption == "Trung Bình" && windowsOption == "Trung Bình")
+                    {
+                        additionalPrice = 2000000;
+                    }
+                    else if (configuration == "Cao" && cardOption == "Cao" && windowsOption == "Cao")
+                    {
+                        additionalPrice = 30000000;
+                    }
+                    else if (configuration == "Thấp" && cardOption == "Trung Bình" && windowsOption == "Thấp" ||
+                             configuration == "Thấp" && cardOption == "Thấp" && windowsOption == "Trung Bình" ||
+                             configuration == "Thấp" && cardOption == "Cao" && windowsOption == "Thấp" ||
+                             configuration == "Thấp" && cardOption == "Thấp" && windowsOption == "Cao" ||
+                             configuration == "Trung Bình" && cardOption == "Thấp" && windowsOption == "Thấp" ||
+                             configuration == "Trung Bình" && cardOption == "Trung Bình" && windowsOption == "Thấp")
+                    {
+                        additionalPrice = 1000000;
+                    }
+                    else if (configuration == "Thấp" && cardOption == "Cao" && windowsOption == "Trung Bình" ||
+                             configuration == "Thấp" && cardOption == "Trung Bình" && windowsOption == "Cao" ||
+                             configuration == "Trung Bình" && cardOption == "Trung Bình" && windowsOption == "Cao" ||
+                             configuration == "Cao" && cardOption == "Trung Bình" && windowsOption == "Cao" ||
+                             configuration == "Cao" && cardOption == "Cao" && windowsOption == "Trung Bình" ||
+                             configuration == "Trung Bình" && cardOption == "Cao" && windowsOption == "Trung Bình")
+                    {
+                        additionalPrice = 2000000;
+                    }
+                    existingCartItem.Price = (product.Price + additionalPrice) * existingCartItem.Quantity;
+                }
+                else
+                {
+                    existingCartItem.ColorOption = colorOption;
+                }
+                var success = await _cartService.UpdateCartItemAsync(existingCartItem);
                 if (!success)
                 {
                     return NotFound();
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             var cartItem = await _cartService.GetCartItemByIdAsync(cartItemId);
             if (cartItem == null)
             {
                 return NotFound();
             }
-            ViewBag.ListType = await _context.ProductCategory
-                .Select(x => new ProductCategory
-                {
-                    ProductTypeId = x.ProductTypeId,
-                    ProductTypeName = x.ProductTypeName,
-                }).ToListAsync();
+
             return View(cartItem);
         }
 
@@ -114,7 +161,6 @@ namespace ProductDemo.Controllers
             await _cartService.RemoveFromCartAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
 
         public async Task<IActionResult> Purchase()
         {

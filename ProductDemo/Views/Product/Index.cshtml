@@ -1,14 +1,14 @@
 ﻿@model ProductDemo.ViewModels.ProductViewModel
 
-<h2 class="text-center mb-5">List of Products</h2>
+<h2 class="text-center mb-5">Danh Sách các Sản Phẩm</h2>
 
 <div class="row mb-4">
     <div class="col">
-        <a class="btn btn-primary" asp-controller="Product" asp-action="Create">Create New Product</a>
+        <a class="btn btn-primary" asp-controller="Product" asp-action="Create">Tạo Sản Phẩm Mới</a>
     </div>
     <div class="col">
         <form class="d-flex flex-row align-items-center flex-wrap" asp-action="Index">
-            <label for="search" class="mx-2 my-1">Search</label>
+            <label for="search" class="mx-2 my-1">Tìm Kiếm</label>
             <input type="search" class="form-control w-auto" id="search" name="search" value="@Model.Search" placeholder="Search" />
             <button type="submit" class="btn btn-success mx-2">Go</button>
         </form>
@@ -19,15 +19,15 @@
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
             <tr>
-                <th>Name</th>
-                <th>Image</th>
-                <th>Price</th>
-                <th>Manufacturer</th>
-                <th>Category</th>
-                <th>Made In</th>
-                <th>Material</th>
-                <th>Remaining Number</th>
-                <th>Actions</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Hình Ảnh</th>
+                <th>Giá Tiền</th>
+                <th>Thương Hiệu</th>
+                <th>Loại Sản Phẩm</th>
+                <th>Xuất xứ</th>
+                <th>Nguyên Liệu</th>
+                <th>Số Lượng Tồn</th>
+                <th>Hành Động</th>
             </tr>
         </thead>
         <tbody>
@@ -42,7 +42,7 @@
                         }
                         else
                         {
-                            <span>No image available</span>
+                            <span>Hình ảnh không có sẵn.</span>
                         }
                     </td>
                     <td>@product.Price.ToString("C")</td>
@@ -52,9 +52,9 @@
                     <td>@product.Material</td>
                     <td>@product.RemainingNumber</td>
                     <td style="white-space: nowrap;">
-                        <a class="btn btn-primary btn-sm" asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">Detail</a>
-                        <a class="btn btn-warning btn-sm" asp-controller="Product" asp-action="Edit" asp-route-id="@product.ProductId">Edit</a>
-                        <a class="btn btn-danger btn-sm" asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductId">Delete</a>
+                        <a class="btn btn-primary btn-sm" asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">Chi Tiết</a>
+                        <a class="btn btn-warning btn-sm" asp-controller="Product" asp-action="Edit" asp-route-id="@product.ProductId">Chỉnh Sửa</a>
+                        <a class="btn btn-danger btn-sm" asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductId">Xóa</a>
                     </td>
                 </tr>
             }
@@ -67,7 +67,7 @@
     <nav aria-label="Product Pagination">
         <ul class="pagination justify-content-center">
             <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
-                <a class="page-link" asp-controller="Product" asp-action="Index" asp-route-page="@(Model.Page - 1)">Prev</a>
+                <a class="page-link" asp-controller="Product" asp-action="Index" asp-route-page="@(Model.Page - 1)">Trước</a>
             </li>
             @for (int i = 0; i < Model.NoOfPages; i++)
             {
@@ -76,7 +76,7 @@
                 </li>
             }
             <li class="page-item @(Model.Page == Model.NoOfPages ? "disabled" : "")">
-                <a class="page-link" asp-controller="Product" asp-action="Index" asp-route-page="@(Model.Page + 1)">Next</a>
+                <a class="page-link" asp-controller="Product" asp-action="Index" asp-route-page="@(Model.Page + 1)">Sau</a>
             </li>
         </ul>
     </nav>

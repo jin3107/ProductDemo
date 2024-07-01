@@ -5,15 +5,15 @@
 
 <table class="table table-bordered">
     <tr>
-        <th>Product Id</th>
+        <th>Id Sản Phẩm</th>
         <td>@Model.ProductId</td>
     </tr>
     <tr>
-        <th>Product Name</th>
+        <th>Tên Sản Phẩm</th>
         <td>@Model.ProductName</td>
     </tr>
     <tr>
-        <th>Image</th>
+        <th>Hình Ảnh</th>
         <td>
             @if (!string.IsNullOrEmpty(Model.ImagePath))
             {
@@ -21,35 +21,35 @@
             }
             else
             {
-                <span>No image available</span>
+                <span>Hình ảnh không có sẵn.</span>
             }
         </td>
     </tr>
     <tr>
-        <th>Price</th>
+        <th>Giá Tiền</th>
         <td>@Model.Price.ToString("C")</td>
     </tr>
     <tr>
-        <th>Manufacturer</th>
+        <th>Thương Hiệu</th>
         <td>@Model.Manufactor</td>
     </tr>
     <tr>
-        <th>Product Category</th>
+        <th>Loại Sản Phẩm</th>
         <td>@Model.ProductCategory?.ProductTypeName</td>
     </tr>
     <tr>
-        <th>Made In</th>
+        <th>Xuất xứ</th>
         <td>@Model.MadeIn</td>
     </tr>
     <tr>
-        <th>Material</th>
+        <th>Nguyên Liệu</th>
         <td>@Model.Material</td>
     </tr>
     <tr>
-        <th>Remaining Number</th>
+        <th>Số Lượng Tồn</th>
         <td>@Model.RemainingNumber</td>
     </tr>
 </table>
 
-<a class="btn btn-primary" asp-controller="Product" asp-action="Index">Back to List of Products</a>
-<a class="btn btn-success" asp-controller="Home" asp-action="Index">Back to Home</a>
+<a class="btn btn-primary" asp-controller="Product" asp-action="Index">Trở về Danh Sách Sản Phẩm</a>
+<a class="btn btn-success" asp-controller="Home" asp-action="Index">Trở về Trang Chủ</a>

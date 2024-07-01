@@ -28,5 +28,15 @@ namespace ProductDemo.Models
 
         [Required]
         public string? BuyerName { get; set; }
+
+        public string? Configuration { get; set; }
+
+        public string? WindowsOption { get; set; }
+
+        public string? CardOption { get; set; }
+
+        public string? ColorOption { get; set; }
+
+        public string? Descriptions { get; set; }
     }
 }

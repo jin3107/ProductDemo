@@ -37,6 +37,8 @@ namespace ProductDemo.Models
         public Guid? ProductTypeId { get; set; }
 
         public int RemainingNumber { get; set; }
+
+        public string? Description { get; set; }
     }
 }
 

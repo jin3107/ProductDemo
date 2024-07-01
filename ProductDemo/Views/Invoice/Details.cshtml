@@ -1,36 +1,36 @@
 ﻿@using ProductDemo.Models
 @model Invoice
 
-<h2>Invoice Detail</h2>
+<h2>Chi Tiết Hóa Đơn</h2>
 
 <table class="table table-bordered">
     <tr>
-        <th>Invoice Id</th>
+        <th>Id Hóa Đơn</th>
         <td>@Model.InvoiceId</td>
     </tr>
     <tr>
-        <th>Buyer Name</th>
+        <th>Tên Người Mua</th>
         <td>@Model.BuyerName</td>
     </tr>
     <tr>
-        <th>Product Name</th>
+        <th>Tên Sản Phẩm</th>
         <td>@Model.ProductName</td>
     </tr>
     <tr>
-        <th>Product Category</th>
+        <th>Loại Sản Phẩm</th>
         <td>@Model.ProductCategory?.ProductTypeName</td>
     </tr>
     <tr>
-        <th>Price</th>
+        <th>Giá Tiền</th>
         <td>@Model.Price.ToString("C")</td>
     </tr>
     <tr>
-        <th>Purchase Date</th>
+        <th>Thời Gian Mua</th>
         <td>@Model.PurchaseDate.ToString("dd/MM/yyyy")</td>
     </tr>
     <tr>
-        <th>Quantity</th>
+        <th>Số Lượng</th>
         <td>@Model.Quantity</td>
     </tr>
 </table>
-<a class="btn btn-primary ml-2" asp-controller="Invoice" asp-action="Index">Back to List of Invice</a>
+<a class="btn btn-primary ml-2" asp-controller="Invoice" asp-action="Index">Trở về Danh Sách Hóa Đơn</a>

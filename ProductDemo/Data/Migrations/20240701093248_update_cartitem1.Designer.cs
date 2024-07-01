@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProductDemo.Data;
 
@@ -11,9 +12,11 @@ using ProductDemo.Data;
 namespace ProductDemo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240701093248_update_cartitem1")]
+    partial class update_cartitem1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,9 +249,6 @@ namespace ProductDemo.Data.Migrations
                     b.Property<string>("CardOption")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ColorOption")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Configuration")
                         .HasColumnType("nvarchar(max)");
 
@@ -331,9 +331,6 @@ namespace ProductDemo.Data.Migrations
                     b.Property<Guid>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
                         .HasMaxLength(100)

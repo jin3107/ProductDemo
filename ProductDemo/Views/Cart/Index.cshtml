@@ -1,46 +1,15 @@
-﻿@* @model IEnumerable<ProductDemo.Models.CartItem>
+﻿@model IEnumerable<ProductDemo.Models.CartItem>
 
 <h1>Giỏ Hàng</h1>
 <table class="table table-bordered table-hover">
     <thead class="table-dark">
         <tr>
-            <th>Product Name</th>
-            <th>Active</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var group in Model.GroupBy(x => x.BuyerName))
-        {
-            @foreach (var item in group)
-            {
-                <tr>
-                    <td>
-                        <a class="form-select" asp-for="@item.ProductId" asp-items="@(new SelectList((List<ProductDemo.Models.Product>)ViewBag.ListProducts, "ProductId", "ProductName", item.ProductId))">
-                        </a>
-                    </td>
-                    <td style="white-space:nowrap;">
-                        <a href="@Url.Action("Details", new { id = item.CartItemId })" class="btn btn-primary">Details</a>
-                        <a href="@Url.Action("Edit", new { id = item.CartItemId })" class="btn btn-warning">Edit</a>
-                        <a href="@Url.Action("Delete", new { id = item.CartItemId })" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-
-<a href="@Url.Action("Purchase")" class="btn btn-success">Buy</a> *@
-
-@model IEnumerable<ProductDemo.Models.CartItem>
-
-<h1>Giỏ Hàng</h1>
-<table class="table table-bordered table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Active</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Hình Ảnh</th>
+            <th>Số Lượng</th>
+            <th>Giá Tiền</th>
+            <th>Mô Tả</th>
+            <th>Hành Động</th>
         </tr>
     </thead>
     <tbody>
@@ -50,12 +19,57 @@
             {
                 <tr>
                     <td>@item.Product?.ProductName</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Product?.ImagePath))
+                        {
+                            <img src="@item.Product.ImagePath" alt="@item.Product?.ProductName" style="max-width: 200px;" />
+                        }
+                    </td>
                     <td>@item.Quantity</td>
                     <td>@item.Price.ToString("C")</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Descriptions))
+                        {
+                            @Html.Raw(item.Descriptions.Replace("\n", "<br/>"))
+                        }
+                        else
+                        {
+                            <span>Không có mô tả</span>
+                        }
+                        <br />
+                        @{
+                            var productType = item.Product?.ProductCategory?.ProductTypeName;
+                            var isLaptopOrComputer = productType == "Laptop" || productType == "Computer";
+                        }
+                        @if (isLaptopOrComputer)
+                        {
+                            @if (!string.IsNullOrEmpty(item.Configuration))
+                            {
+                                <span>Cấu hình: @Html.Raw(item.Configuration.Replace("\n", "<br/>"))</span>
+                            }
+                            <br />
+                            @if (!string.IsNullOrEmpty(item.WindowsOption))
+                            {
+                                <span>Windows: @item.WindowsOption</span>
+                            }
+                            <br />
+                            @if (!string.IsNullOrEmpty(item.CardOption))
+                            {
+                                <span>Card: @item.CardOption</span>
+                            }
+                        }
+                        else
+                        {
+                            @if (!string.IsNullOrEmpty(item.ColorOption))
+                            {
+                                <span>Màu sắc: @item.ColorOption</span>
+                            }
+                        }
+                    </td>
                     <td style="white-space:nowrap;">
-                        <a href="@Url.Action("Details", new { id = item.CartItemId })" class="btn btn-primary">Details</a>
-                        <a href="@Url.Action("Edit", new { id = item.CartItemId })" class="btn btn-warning">Edit</a>
-                        <a href="@Url.Action("Delete", new { id = item.CartItemId })" class="btn btn-danger">Delete</a>
+                        <a href="@Url.Action("Details", new { id = item.CartItemId })" class="btn btn-primary btn-sm">Chi tiết</a>
+                        <a href="@Url.Action("Edit", new { id = item.CartItemId })" class="btn btn-warning btn-sm">Chỉnh Sửa</a>
+                        <a href="@Url.Action("Delete", new { id = item.CartItemId })" class="btn btn-danger btn-sm">Xóa</a>
                     </td>
                 </tr>
             }
@@ -63,4 +77,4 @@
     </tbody>
 </table>
 
-<a href="@Url.Action("Purchase")" class="btn btn-success">Buy</a>
+<a href="@Url.Action("Purchase")" class="btn btn-success btn-sm">Mua</a>

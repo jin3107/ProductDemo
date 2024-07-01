@@ -1,0 +1,201 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model ProductDemo.Models.Product
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Thông Tin Sản Phẩm";
+    Layout = "~/Views/Shared/_Layout3.cshtml";
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#configOption, #windowsOption, #cardOption').change(function () {
+                updatePrice();
+            });
+
+            function updatePrice() {
+                var config = $('#configOption').val();
+                var windows = $('#windowsOption').val();
+                var card = $('#cardOption').val();
+
+                // Giá ban đầu của sản phẩm
+                var price = @Model.Price;
+                var additionalPrice = 0;
+
+                // Áp dụng các điều kiện theo yêu cầu
+                if (config === "Cấu Hình Thấp" && card === "Card Đồ Họa Trung Bình" && windows === "Windows Thấp") {
+                    additionalPrice += 1000000;
+                }
+                else if (config === "Cấu Hình Thấp" && card === "Card Đồ Họa Cao" && windows === "Windows Thấp") {
+                    additionalPrice += 1000000;
+                }
+                else if (config === "Cấu Hình Thấp" && card === "Card Đồ Họa Thấp" && windows === "Windows Trung Bình") {
+                    additionalPrice += 1000000;
+                }
+                else if (config === "Cấu Hình Thấp" && card === "Card Đồ Họa Thấp" && windows === "Windows Cao") {
+                    additionalPrice += 1000000;
+                }
+                else if (config === "Cấu Hình Trung Bình" && card === "Card Đồ Họa Trung Bình" && windows === "Windows Trung Bình") {
+                    additionalPrice += 2000000;
+                }
+                else if (config === "Cấu Hình Cao" && card === "Card Đồ Họa Cao" && windows === "Windows Cao") {
+                    additionalPrice += 30000000;
+                }
+                else if (config === "Cấu Hình Thấp" && card === "Card Đồ Họa Trung Bình" && windows === "Windows Cao") {
+                    additionalPrice += 2000000;
+                }
+                else if (config === "Cấu Hình Thấp" && card === "Card Đồ Họa Cao" && windows === "Windows Trung Bình") {
+                    additionalPrice += 2000000;
+                }
+                else if (config === "Cấu Hình Trung Bình" && card === "Card Đồ Họa Thấp" && windows === "Windows Thấp") {
+                    additionalPrice += 1000000;
+                }
+                else if (config === "Cấu Hình Trung Bình" && card === "Card Đồ Họa Trung Bình" && windows === "Windows Thấp") {
+                    additionalPrice += 1000000;
+                }
+                else if (config === "Cấu Hình Trung Bình" && card === "Card Đồ Họa Trung Bình" && windows === "Windows Cao") {
+                    additionalPrice += 2000000;
+                }
+                else if (config === "Cấu Hình Cao" && card === "Card Đồ Họa Trung Bình" && windows === "Windows Cao") {
+                    additionalPrice += 2000000;
+                }
+                else if (config === "Cấu Hình Cao" && card === "Card Đồ Họa Cao" && windows === "Windows Trung Bình") {
+                    additionalPrice += 2000000;
+                }
+                else if (config === "Cấu Hình Trung Bình" && card === "Card Đồ Họa Cao" && windows === "Windows Trung Bình") {
+                    additionalPrice += 2000000;
+                }
+
+                var totalPrice = price + additionalPrice;
+
+                // Hiển thị giá mới sau khi cập nhật
+                $('#currentPrice').text(totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+            }
+
+            // Gọi hàm updatePrice để hiển thị giá ban đầu khi trang được tải
+            updatePrice();
+        });
+    </script>
+}
+
+<div class="container mt-5">
+    <!-- Product Information Section -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <img src="@Model.ImagePath" alt="@Model.ProductName" class="card-img-top" />
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(model => model.ProductName)</h5>
+                    <div class="detail">
+                        <p><strong>Id Sản Phẩm:</strong> @Model.ProductId</p>
+                        <p><strong>Loại Sản Phẩm:</strong> @Html.DisplayFor(model => model.ProductCategory!.ProductTypeName)</p>
+                        <p><strong>Giá:</strong> @Model.Price.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</p>
+                        <p><strong>Thương hiệu:</strong> @Html.DisplayFor(model => model.Manufactor)</p>
+                        <p><strong>Xuất xứ:</strong> @Html.DisplayFor(model => model.MadeIn)</p>
+                        <p><strong>Chất liệu:</strong> @Html.DisplayFor(model => model.Material)</p>
+                        <p><strong>Số lượng còn lại:</strong> @Html.DisplayFor(model => model.RemainingNumber)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="rating">
+                            <p>Đánh giá:</p>
+                            @for (var i = 0; i < 5; i++)
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            }
+                        </div>
+                        <p style="color: red; font-weight: bold;">@Model.Price.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</p>
+                    </div>
+                    <!-- Product options form -->
+                    <form asp-action="AddToCart">
+                        @if (Model.ProductCategory!.ProductTypeName == "Laptop" || Model.ProductCategory.ProductTypeName == "Computer")
+                        {
+                            <div class="form-group">
+                                <label class="note">Tùy chọn Cấu Hình</label>
+                                <select name="configurationOption" class="form-control" id="configOption" required>
+                                    <option value="" disabled selected>-- Nhấn để chọn --</option>
+                                    <option value="Thấp">CPU: Intel Core i3-10100 hoặc AMD Ryzen 3 3200G, RAM: 8GB DDR4, Ổ cứng: 256GB SSD, Nguồn: 300W</option>
+                                    <option value="Trung Bình">CPU: Intel Core i5-11400 hoặc AMD Ryzen 5 3600, RAM: 16GB DDR4, Ổ cứng: 512GB SSD + 1TB HDD, Nguồn: 500W</option>
+                                    <option value="Cao">CPU: Intel Core i7-12700K hoặc AMD Ryzen 7 5800X, RAM: 32GB DDR4, Ổ cứng: 1TB NVMe SSD + 2TB HDD, Nguồn: 750W</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="note">Tùy chọn Hệ Điều Hành Windows</label>
+                                <select name="windowsOption" class="form-control" id="windowsOption" required>
+                                    <option value="" disabled selected>-- Nhấn để chọn --</option>
+                                    <option value="Thấp">Windows 10 Home</option>
+                                    <option value="Trung Bình">Windows 10 Pro</option>
+                                    <option value="Cao">Windows 11 Pro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="note">Tùy chọn Card Đồ Họa</label>
+                                <select name="cardOption" class="form-control" id="cardOption" required>
+                                    <option value="" disabled selected>-- Nhấn để chọn --</option>
+                                    <option value="Thấp">Card đồ họa: Tích hợp (Intel UHD Graphics 630 hoặc Radeon Vega 8)</option>
+                                    <option value="Trung Bình">Card đồ họa: NVIDIA GeForce GTX 1660 Super hoặc AMD Radeon RX 5600 XT</option>
+                                    <option value="Cao">Card đồ họa: NVIDIA GeForce RTX 3070 hoặc AMD Radeon RX 6800 XT</option>
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label class="note">Tùy chọn Màu sắc</label>
+                                <select name="colorOption" class="form-control" id="colorOption" required>
+                                    <option value="" disabled selected>-- Nhấn để chọn --</option>
+                                    <option value="Đỏ">Màu Đỏ</option>
+                                    <option value="Xanh Lục">Màu Xanh Lục</option>
+                                    <option value="Xanh Biển">Màu Xanh Biển</option>
+                                    <option value="Đen">Màu Đen</option>
+                                    <option value="Trắng">Màu Trắng</option>
+                                </select>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label class="note">Số lượng</label>
+                            <!-- Quantity input -->
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="if(parseInt(SL.value)>1) {SL.value = parseInt(SL.value) - 1;}">-</button>
+                                </div>
+                                <input type="number" class="form-control" id="SL" name="quantity" value="1" min="1">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="SL.value = parseInt(SL.value) + 1;">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="note">Mô tả</label>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <!-- Hidden field for product ID -->
+                            <input type="hidden" name="ProductId" value="@Model.ProductId" readonly />
+                            <!-- Add to cart button or login prompt -->
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <button type="submit" class="btn btn-primary" asp-action="AddToCart" asp-controller="Cart" asp-route-id="@Model.ProductId">Thêm vào giỏ hàng</button>
+                                <button type="submit" class="btn btn-primary" asp-action="Index" asp-controller="Home">Trang Chủ</button>
+                            }
+                            else
+                            {
+                                <a class="btn btn-success" href="~/Identity/Account/Login">Đăng nhập để mua</a>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

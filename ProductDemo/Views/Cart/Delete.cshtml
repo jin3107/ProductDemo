@@ -1,26 +1,26 @@
 ﻿@model ProductDemo.Models.CartItem
 
-<h1>Product Delete</h1>
+<h1>Xóa Sản Phẩm</h1>
 
-<h4>Are yot sure to Delete Product?</h4>
+<h4>Bạn muốn Xóa Sản Phẩm này?</h4>
 <div>
-    <h4>Product`</h4>
+    <h4>Sản Phẩm</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            Product Name
+            Tên Sản Phẩm
         </dt>
         <dd class="col-sm-10">
             @Model.Product!.ProductName
         </dd>
         <dt class="col-sm-2">
-            Quantity
+            Số Lượng
         </dt>
         <dd class="col-sm-10">
             @Model.Quantity
         </dd>
         <dt class="col-sm-2">
-            Price
+            Giá Tiền
         </dt>
         <dd class="col-sm-10">
             @Model.Price.ToString("C")
@@ -30,7 +30,7 @@
 <div>
     <form asp-action="Delete" asp-controller="Cart">
         <input type="hidden" asp-for="CartItemId" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
-        <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a href="@Url.Action("Index")" class="btn btn-secondary">Hủy</a>
     </form>
 </div>

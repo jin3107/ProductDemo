@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductDemo.Data;
 using ProductDemo.Models;
 using ProductDemo.Services;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,12 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 });
+
+// Thiết lập văn hóa mặc định cho ứng dụng
+var cultureInfo = new CultureInfo("vi-VN");
+cultureInfo.NumberFormat.NumberGroupSeparator = ".";
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var app = builder.Build();
 
